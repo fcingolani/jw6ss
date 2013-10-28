@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>jw6ss.litcoffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>jw6ss.litcoffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>This CoffeScript / JavaScript library allows you to track JW Player 6 events using Comscore
+StreamSense.</p>
+<p>The JW6SS Class is our namespace-like container, to avoid the global scope
+pollution.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">JW6SS</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <em>Observe</em> class method provides a shorthand utility to start reporting
+player events.</p>
+<p>It just takes one argument, a <em>JW Player</em> instance, and if it isn&#39;t provided it
+it will call the <code>jwplayer()</code> function.</p>
+<p>It returns a <code>Reporter</code> instance, so you can store it for later use.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="property">@observe</span>: (jw = jwplayer())=&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Create a <code>ns_.StreamSense</code> instance.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    ss = <span class="keyword">new</span> ns_.StreamSense</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Create a new <code>Reporter</code> object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    reporter = <span class="keyword">new</span> <span class="property">@Reporter</span> jw, ss</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Start reporting inmediately! As the <code>observe()</code> instance method from <code>Reporter</code>
+class returns <code>this</code>, this last line will return the forementioned <code>Reporter</code>
+instance.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    reporter.observe()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>This is the main Class for the library, it handles the mapping between player
+events and <em>StreamSense</em> events, and keeps updated all the variables the latter
+needs to report.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">JW6SS</span>.<span class="title">Reporter</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Define some internal states as Class properties. This is needed because of how
+JW fires <em>Seeking </em> events (we will get onto this later on). While just
+<code>States.SEEKING</code> is really needed, we define other basic states for the sake of
+completeness.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="property">@States</span>:
+    IDLE:    <span class="number">0</span>
+    PLAYING: <span class="number">1</span>
+    PAUSED:  <span class="number">2</span>
+    SEEKING:  <span class="number">3</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p><code>Reporter</code> provides debugging information for every event, modification and
+notification. Defining <code>loggingEnabled</code> to <code>true</code> will use <code>console.log</code> to
+output this information.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  loggingEnabled: <span class="literal">false</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>This private variable stores the current Player status, <em>idle</em> by default.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _state = <span class="property">@States</span>.IDLE</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>When a seeking event is fired, we will store its target offset in this variable.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _seekOffset = <span class="literal">null</span>
+
+
+
+  constructor: (<span class="property">@jw</span>, <span class="property">@ss</span>)-&gt;
+    <span class="keyword">if</span> <span class="property">@jw</span>.config.streamsense? <span class="keyword">and</span> <span class="property">@jw</span>.config.streamsense.loggingEnabled?
+      <span class="property">@loggingEnabled</span> = <span class="property">@jw</span>.config.streamsense.loggingEnabled
+
+  log: ()-&gt;
+    <span class="keyword">if</span> <span class="property">@loggingEnabled</span> <span class="keyword">and</span> console? <span class="keyword">and</span> console.log?
+      console.log.apply console, arguments
+
+  observe: ()-&gt;
+    <span class="property">@resetPlayer</span>()
+
+    <span class="property">@jw</span>.onVolume (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onVolume event fired'</span>, e
+      <span class="property">@resetPlayer</span>()
+
+    <span class="property">@jw</span>.onMute (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onMute event fired'</span>, e
+      <span class="property">@resetPlayer</span>()
+
+    <span class="property">@jw</span>.onFullscreen (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onFullscreen event fired'</span>, e
+      <span class="property">@resetPlayer</span>()
+
+    <span class="property">@jw</span>.onPlaylist (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onPlaylist event fired'</span>, e
+      <span class="property">@resetPlaylist</span>()
+
+    <span class="property">@jw</span>.onPlaylistItem (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onPlaylistItem event fired'</span>, e
+      <span class="property">@resetClipLabels</span>()
+
+    <span class="property">@jw</span>.onPlaylistComplete (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onPlaylistComplete event fired'</span>, e
+
+      <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.END,
+        ns_st_pe: <span class="number">1</span>
+
+    <span class="property">@jw</span>.onPlay (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onPlay event fired'</span>, e
+
+      <span class="property">@updateClipLabels</span>()
+
+      labels = {}
+      seconds = <span class="literal">null</span>
+
+      <span class="keyword">if</span> _state <span class="keyword">is</span> <span class="property">@constructor</span>.States.SEEKING
+        labels.ns_st_ui = <span class="string">'seeking'</span>
+        seconds = _seekOffset
+
+      <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.PLAY, labels, seconds
+
+      _seekOffset = <span class="literal">null</span>
+      _state = <span class="property">@constructor</span>.States.PLAYING
+
+    <span class="property">@jw</span>.onPause (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onPause event fired'</span>, e
+
+      <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.PAUSE
+
+      _state = <span class="property">@constructor</span>.States.PAUSED
+
+    <span class="property">@jw</span>.onBuffer (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onBuffer event fired'</span>, e</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Only notify Buffering when starting a new clip.
+This <em>needs</em> to be done to avoid Seeking being reported as a Buffering
+event. Downside: We are losing buffering events during playback. :(</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> <span class="property">@jw</span>.getPosition() <span class="keyword">is</span> <span class="number">0</span> <span class="keyword">and</span> e.oldstate <span class="keyword">is</span> <span class="string">"IDLE"</span>
+        <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.BUFFER
+
+    <span class="property">@jw</span>.onIdle (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onIdle event fired'</span>, e
+
+      _state = <span class="property">@constructor</span>.States.IDLE
+
+
+    <span class="property">@jw</span>.onComplete (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onComplete event fired'</span>, e
+
+      <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.END
+
+      _state = <span class="property">@constructor</span>.States.IDLE
+
+
+    <span class="property">@jw</span>.onSeek (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] onSeek event fired'</span>, e
+
+      <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.PAUSE,
+          ns_st_ui: <span class="string">'seeking'</span>
+        , e.position
+
+      _state = <span class="property">@constructor</span>.States.SEEKING</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Note the actual position the player will eventually seek to may differ,
+e.g. because Flash progressive can only seek to keyframes and HLS can
+only seek to fragment boundaries.</p>
+<p><a href="http://www.longtailvideo.com/support/jw-player/28851/javascript-api-reference">http://www.longtailvideo.com/support/jw-player/28851/javascript-api-reference</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      _seekOffset = e.offset
+
+    <span class="property">@jw</span>.onError (e)=&gt;
+      <span class="property">@log</span> <span class="string">'[JW6SS::JW6] error event fired'</span>, e
+
+      <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.END
+
+    <span class="keyword">return</span> @
+
+
+  generatePlayerLabels: ()-&gt;
+    labels =
+      ns_st_mp: <span class="string">"JW Player"</span>
+      ns_st_mv: jwplayer.version</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>ns_st_it: not provided by JW
+ns_st_br: not provided by JW</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      ns_st_ws: <span class="keyword">if</span> <span class="property">@jw</span>.isFullscreen <span class="keyword">then</span> <span class="string">'full'</span> <span class="keyword">else</span> <span class="string">'norm'</span>
+      ns_st_vo: <span class="property">@jw</span>.getVolume() || <span class="number">100</span>
+
+    <span class="keyword">if</span> <span class="property">@jw</span>.config.streamsense? <span class="keyword">and</span> <span class="property">@jw</span>.config.streamsense.player?
+      labels extends <span class="property">@jw</span>.config.streamsense.persistent
+
+    <span class="keyword">return</span> labels
+
+  resetPlayer: ()-&gt;
+    labels = <span class="property">@generatePlayerLabels</span>()
+    <span class="property">@ss</span>.setLabels labels
+
+    <span class="property">@log</span> <span class="string">'[JW6SS] resetted persistent labels'</span>, labels
+
+
+  generatePlaylistLabels: ()-&gt;
+    labels =
+      ns_st_pl: <span class="property">@jw</span>.config.title</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>ns_st_ca: not provided by JW</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      ns_st_cp: <span class="property">@jw</span>.getPlaylist().length
+
+    <span class="keyword">if</span> <span class="property">@jw</span>.config.streamsense? <span class="keyword">and</span> <span class="property">@jw</span>.config.streamsense.playlist?
+      labels extends <span class="property">@jw</span>.config.streamsense.playlist
+
+    <span class="keyword">return</span> labels
+
+  resetPlaylist: ()-&gt;
+    labels = <span class="property">@generatePlaylistLabels</span>()
+    <span class="property">@ss</span>.setPlaylist labels
+
+    <span class="property">@log</span> <span class="string">'[JW6SS] updated playlist labels'</span>, labels
+
+  generateClipLabels: ()-&gt;
+    clip = <span class="property">@jw</span>.getPlaylistItem()
+
+    clipDuration = <span class="property">@jw</span>.getDuration()
+    clipLength = <span class="keyword">if</span> clipDuration &gt; <span class="number">0</span> <span class="keyword">then</span> clipDuration * <span class="number">1000</span> <span class="keyword">else</span> <span class="number">0</span>
+    clipURL = clip.file.split(<span class="string">'?'</span>).shift()
+
+    labels =
+      ns_st_cn: <span class="property">@jw</span>.getPlaylistIndex() + <span class="number">1</span>
+      ns_st_ci: generateHash clipURL
+      ns_st_cl: clipLength
+      ns_st_pn: <span class="number">1</span>
+      ns_st_tp: <span class="number">1</span>
+      ns_st_el: clipLength
+      ns_st_pr: clip.title</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>ns_st_ep: not provided by JW
+ns_st_ty: not provided by JW
+ns_st_ge: not provided by JW
+ns_st_de: not provided by JW
+ns_st_pu: not provided by JW
+ns_st_dt: not provided by JW
+ns_st_st: not provided by JW
+ns_st_fee: not provided by JW
+ns_st_ad: not provided by JW
+ns_st_li: not provided by JW
+ns_st_cs: not provided by JW</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      ns_st_cu: clipURL
+
+    <span class="keyword">if</span> clip.streamsense?
+      labels extends clip.streamsense
+
+    <span class="keyword">return</span> labels
+
+  resetClipLabels: ()-&gt;
+    labels = <span class="property">@generateClipLabels</span>()
+    <span class="property">@ss</span>.setClip labels
+
+    <span class="property">@log</span> <span class="string">'[JW6SS] resetted clip labels'</span>, labels
+
+  updateClipLabels: ()-&gt;
+    labels = <span class="property">@generateClipLabels</span>()
+    <span class="property">@ss</span>.getClip().setLabels labels
+
+    <span class="property">@log</span> <span class="string">'[JW6SS] updated clip labels'</span>, labels
+
+
+  notify: (state, labels = {}, seconds = <span class="property">@jw</span>.getPosition())-&gt;
+    <span class="property">@log</span> <span class="string">"[JW6SS::StreamSense] notifying event"</span>, state, labels, seconds
+    <span class="property">@ss</span>.notify state, labels, seconds * <span class="number">1000</span>
+
+
+<span class="function"><span class="title">generateHash</span></span> = (s) -&gt;
+  h = <span class="number">0</span>
+
+  <span class="keyword">if</span> s.length <span class="keyword">is</span> <span class="number">0</span>
+   <span class="keyword">return</span> h
+
+  <span class="keyword">for</span> i <span class="keyword">in</span> [<span class="number">0.</span>..s.length]
+    <span class="keyword">do</span> (i)-&gt;
+      c = s.charCodeAt i
+      h = ((h&lt;&lt;<span class="number">5</span>)-h)+c
+      h |= <span class="number">0</span>
+
+  <span class="keyword">return</span> Math.abs(h).toString(<span class="number">36</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Export global module</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>window.JW6SS = JW6SS</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
