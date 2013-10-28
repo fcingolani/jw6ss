@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>jw6ss.litcoffee</title>
+  <title>jw6ss.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -15,7 +15,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>jw6ss.litcoffee</h1>
+                  <h1>jw6ss.coffee</h1>
               </div>
           </li>
         
@@ -27,14 +27,10 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>This CoffeScript / JavaScript library allows you to track JW Player 6 events using Comscore
-StreamSense.</p>
-<p>The JW6SS Class is our namespace-like container, to avoid the global scope
-pollution.</p>
+              <p>This CoffeScript / JavaScript library allows you to track JW Player 6 events
+using Comscore StreamSense.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">JW6SS</span></span></pre></div></div>
             
         </li>
         
@@ -45,15 +41,13 @@ pollution.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The <em>Observe</em> class method provides a shorthand utility to start reporting
-player events.</p>
-<p>It just takes one argument, a <em>JW Player</em> instance, and if it isn&#39;t provided it
-it will call the <code>jwplayer()</code> function.</p>
-<p>It returns a <code>Reporter</code> instance, so you can store it for later use.</p>
+              <p>The JW6SS Class is our namespace-like container, to avoid the global scope
+pollution.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="property">@observe</span>: (jw = jwplayer())=&gt;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+<span class="class"><span class="keyword">class</span> <span class="title">JW6SS</span></span></pre></div></div>
             
         </li>
         
@@ -64,11 +58,10 @@ it will call the <code>jwplayer()</code> function.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Create a <code>ns_.StreamSense</code> instance.</p>
+              <p>The <em>Observe</em> class method provides a shorthand utility to start reporting
+player events.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    ss = <span class="keyword">new</span> ns_.StreamSense</pre></div></div>
             
         </li>
         
@@ -79,11 +72,10 @@ it will call the <code>jwplayer()</code> function.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Create a new <code>Reporter</code> object.</p>
+              <p>It just takes one argument, a <em>JW Player</em> instance, and if it isn&#39;t provided
+it will call the <code>jwplayer()</code> function.</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    reporter = <span class="keyword">new</span> <span class="property">@Reporter</span> jw, ss</pre></div></div>
             
         </li>
         
@@ -94,13 +86,12 @@ it will call the <code>jwplayer()</code> function.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Start reporting inmediately! As the <code>observe()</code> instance method from <code>Reporter</code>
-class returns <code>this</code>, this last line will return the forementioned <code>Reporter</code>
-instance.</p>
+              <p>It returns a <code>Reporter</code> instance, so you can store it for later use.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    reporter.observe()</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+  <span class="property">@observe</span>: (jw = jwplayer())=&gt;</pre></div></div>
             
         </li>
         
@@ -111,13 +102,12 @@ instance.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>This is the main Class for the library, it handles the mapping between player
-events and <em>StreamSense</em> events, and keeps updated all the variables the latter
-needs to report.</p>
+              <p>Create a <code>ns_.StreamSense</code> instance.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">JW6SS</span>.<span class="title">Reporter</span></span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+    ss = <span class="keyword">new</span> ns_.StreamSense</pre></div></div>
             
         </li>
         
@@ -128,18 +118,12 @@ needs to report.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>Define some internal states as Class properties. This is needed because of how
-JW fires <em>Seeking </em> events (we will get onto this later on). While just
-<code>States.SEEKING</code> is really needed, we define other basic states for the sake of
-completeness.</p>
+              <p>Create a new <code>Reporter</code> object.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="property">@States</span>:
-    IDLE:    <span class="number">0</span>
-    PLAYING: <span class="number">1</span>
-    PAUSED:  <span class="number">2</span>
-    SEEKING:  <span class="number">3</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+    reporter = <span class="keyword">new</span> <span class="property">@Reporter</span> jw, ss</pre></div></div>
             
         </li>
         
@@ -150,13 +134,14 @@ completeness.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <p><code>Reporter</code> provides debugging information for every event, modification and
-notification. Defining <code>loggingEnabled</code> to <code>true</code> will use <code>console.log</code> to
-output this information.</p>
+              <p>Start reporting inmediately! As the <code>observe()</code> instance method from
+<code>Reporter</code> class returns <code>this</code>, this last line will return the
+forementioned <code>Reporter</code> instance.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  loggingEnabled: <span class="literal">false</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+    reporter.observe()</pre></div></div>
             
         </li>
         
@@ -167,11 +152,14 @@ output this information.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>This private variable stores the current Player status, <em>idle</em> by default.</p>
+              <p>This is the main Class for the library, it handles the mapping between player
+events and <em>StreamSense</em> events, and keeps updated all the variables the
+latter needs to report.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  _state = <span class="property">@States</span>.IDLE</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+<span class="class"><span class="keyword">class</span> <span class="title">JW6SS</span>.<span class="title">Reporter</span></span></pre></div></div>
             
         </li>
         
@@ -182,11 +170,70 @@ output this information.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>When a seeking event is fired, we will store its target offset in this variable.</p>
+              <p>Define some internal states as Class properties. This is needed because of
+how JW fires <em>Seeking </em> events (we will get onto this later on). While just
+<code>States.SEEKING</code> is really needed, we define other basic states for the sake
+of completeness.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  _seekOffset = <span class="literal">null</span>
+            <div class="content"><div class='highlight'><pre>
+  <span class="property">@States</span>:
+    IDLE:    <span class="number">0</span>
+    PLAYING: <span class="number">1</span>
+    PAUSED:  <span class="number">2</span>
+    SEEKING:  <span class="number">3</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p><code>Reporter</code> provides debugging information for every event, modification and
+notification. Defining <code>loggingEnabled</code> to <code>true</code> will use <code>console.log</code> to
+output this information.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  loggingEnabled: <span class="literal">false</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>This private variable stores the current Player status, <em>idle</em> by default.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  _state = <span class="property">@States</span>.IDLE</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>When a seeking event is fired, we will store its target offset in this
+variable.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+  _seekOffset = <span class="literal">null</span>
 
 
 
@@ -257,11 +304,11 @@ output this information.</p>
         </li>
         
         
-        <li id="section-11">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>Only notify Buffering when starting a new clip.
 This <em>needs</em> to be done to avoid Seeking being reported as a Buffering
@@ -269,7 +316,8 @@ event. Downside: We are losing buffering events during playback. :(</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span> <span class="property">@jw</span>.getPosition() <span class="keyword">is</span> <span class="number">0</span> <span class="keyword">and</span> e.oldstate <span class="keyword">is</span> <span class="string">"IDLE"</span>
+            <div class="content"><div class='highlight'><pre>
+      <span class="keyword">if</span> <span class="property">@jw</span>.getPosition() <span class="keyword">is</span> <span class="number">0</span> <span class="keyword">and</span> e.oldstate <span class="keyword">is</span> <span class="string">"IDLE"</span>
         <span class="property">@notify</span> ns_.StreamSense.PlayerEvents.BUFFER
 
     <span class="property">@jw</span>.onIdle (e)=&gt;
@@ -298,11 +346,11 @@ event. Downside: We are losing buffering events during playback. :(</p>
         </li>
         
         
-        <li id="section-12">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>Note the actual position the player will eventually seek to may differ,
 e.g. because Flash progressive can only seek to keyframes and HLS can
@@ -311,7 +359,8 @@ only seek to fragment boundaries.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      _seekOffset = e.offset
+            <div class="content"><div class='highlight'><pre>
+      _seekOffset = e.offset
 
     <span class="property">@jw</span>.onError (e)=&gt;
       <span class="property">@log</span> <span class="string">'[JW6SS::JW6] error event fired'</span>, e
@@ -329,11 +378,11 @@ only seek to fragment boundaries.</p>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>ns_st_it: not provided by JW
 ns_st_br: not provided by JW</p>
@@ -362,11 +411,11 @@ ns_st_br: not provided by JW</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p>ns_st_ca: not provided by JW</p>
 
@@ -404,11 +453,11 @@ ns_st_br: not provided by JW</p>
         </li>
         
         
-        <li id="section-15">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p>ns_st_ep: not provided by JW
 ns_st_ty: not provided by JW
@@ -466,11 +515,11 @@ ns_st_cs: not provided by JW</p>
         </li>
         
         
-        <li id="section-16">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>Export global module</p>
 
