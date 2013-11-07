@@ -33,7 +33,7 @@ This library is coded in [CoffeeScript](http://coffeescript.org/), with compiled
 
 Then run the compiler (this will keep the compiler watching for changes inside the `src` directory):
 
-    coffee -m -o dist -cw src
+    coffee -o dist -cw src
 
 Generate Documentation
 ----------------------
@@ -46,5 +46,4 @@ Of course you can re-generate with [Docco](http://jashkenas.github.io/docco/):
 
 And running the following command:
 
-    docco -o docs src\jw6ss.litcoffee
-
+    docco -o docs src\jw6ss.coffee
