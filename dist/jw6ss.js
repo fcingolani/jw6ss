@@ -17,6 +17,29 @@
       return reporter.observe();
     };
 
+    JW6SS.observeAll = function(jws) {
+      var jw, _i, _len, _results;
+      if (jws == null) {
+        jws = JW6SS._getAllPlayers();
+      }
+      _results = [];
+      for (_i = 0, _len = jws.length; _i < _len; _i++) {
+        jw = jws[_i];
+        _results.push(JW6SS.observe(jw));
+      }
+      return _results;
+    };
+
+    JW6SS._getAllPlayers = function() {
+      var i, player, _results;
+      i = 0;
+      _results = [];
+      while ((player = jwplayer(i++)) && (player.id != null)) {
+        _results.push(player);
+      }
+      return _results;
+    };
+
     return JW6SS;
 
   }).call(this);

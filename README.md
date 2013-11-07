@@ -17,7 +17,7 @@ First, include the .js file in your HTML. This has to be done *after* including 
 
 If there's only one player in the whole page, you can use the short initialization:
 
-    JW6SS.observe()
+    JW6SS.observeAll()
 
 In case you have more, you can specify which player you want to observe:
 

@@ -17,7 +17,7 @@
 #
 # If there's only one player in the whole page, you can use the short initialization:
 #
-#     JW6SS.observe()
+#     JW6SS.observeAll()
 #
 # In case you have more, you can specify which player you want to observe:
 #
@@ -79,6 +79,14 @@ class JW6SS
     # forementioned `Reporter` instance.
 
     reporter.observe()
+
+  @observeAll: (jws = @_getAllPlayers())=>
+    @observe jw for jw in jws
+
+  @_getAllPlayers: ()->
+    i = 0
+    player while (player = jwplayer i++) and player.id?
+
 
 
 # This is the main Class for the library, it handles the mapping between player
