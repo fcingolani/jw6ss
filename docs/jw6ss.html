@@ -32,7 +32,7 @@
 &lt;!-- This library --&gt;
 &lt;script type=&#39;text/javascript&#39; src=&#39;/jw6ss.js&#39;&gt;&lt;/script&gt;</code></pre>
 <p>If there&#39;s only one player in the whole page, you can use the short initialization:</p>
-<pre><code>JW6SS.observe()</code></pre>
+<pre><code>JW6SS.observeAll()</code></pre>
 <p>In case you have more, you can specify which player you want to observe:</p>
 <pre><code>var p = jwplayer(&#39;main-player&#39;);
 JW6SS.observe(p);</code></pre>
@@ -172,7 +172,14 @@ forementioned <code>Reporter</code> instance.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>
-    reporter.observe()</pre></div></div>
+    reporter.observe()
+
+  <span class="property">@observeAll</span>: (jws = <span class="property">@_getAllPlayers</span>())=&gt;
+    <span class="property">@observe</span> jw <span class="keyword">for</span> jw <span class="keyword">in</span> jws
+
+  <span class="property">@_getAllPlayers</span>: ()-&gt;
+    i = <span class="number">0</span>
+    player <span class="keyword">while</span> (player = jwplayer i++) <span class="keyword">and</span> player.id?</pre></div></div>
             
         </li>
         
