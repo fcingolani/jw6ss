@@ -161,7 +161,7 @@
         ns_st_vo: this.jw.getVolume() || 100
       };
       if ((this.jw.config.streamsense != null) && (this.jw.config.streamsense.player != null)) {
-        __extends(labels, this.jw.config.streamsense.persistent);
+        __extends(labels, this.jw.config.streamsense.player);
       }
       return labels;
     };

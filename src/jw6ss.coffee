@@ -244,7 +244,7 @@ class JW6SS.Reporter
       ns_st_vo: @jw.getVolume() || 100
 
     if @jw.config.streamsense? and @jw.config.streamsense.player?
-      labels extends @jw.config.streamsense.persistent
+      labels extends @jw.config.streamsense.player
 
     return labels
 
